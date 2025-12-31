@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aimers Test Series | Live Exam</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; padding: 10px; user-select: none; }
+        .container { max-width: 800px; background: white; margin: 20px auto; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 3px solid #007bff; margin-bottom: 25px; padding-bottom: 10px; }
+        #timer { font-size: 28px; color: #d9534f; font-weight: bold; position: fixed; top: 15px; right: 15px; background: white; padding: 10px 20px; border: 3px solid #d9534f; border-radius: 50px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .question { margin-bottom: 25px; padding: 20px; border: 1px solid #e1e4e8; border-radius: 10px; background: #fafbfc; }
+        .question p { font-size: 18px; font-weight: 600; margin-bottom: 15px; }
+        .options label { display: block; padding: 10px; margin: 5px 0; background: white; border: 1px solid #ddd; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .options label:hover { background: #e7f3ff; }
+        .btn { width: 100%; padding: 18px; background: #28a745; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 20px; font-weight: bold; margin-top: 30px; }
+        input[type="text"] { width: 95%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div id="timer">60:00</div>
+
+    <div class="container">
+        <div class="header">
+            <h1>AIMERS TEST SERIES</h1>
+            <p><strong>Topic:</strong> Differentiation & Logarithms | <strong>Time:</strong> 60 Mins</p>
+        </div>
+
+        <p><strong>Enter Student Name:</strong></p>
+        <input type="text" id="studentName" placeholder="Full Name likhein..." required>
+
+        <div id="quiz-area">
+            <div class="question" data-ans="A">
+                <p>Q1. Derivative of $x \sin x$ is?</p>
+                <div class="options">
+                    <label><input type="radio" name="q1" value="A"> $\sin x + x \cos x$</label>
+                    <label><input type="radio" name="q1" value="B"> $\cos x$</label>
+                    <label><input type="radio" name="q1" value="C"> $\sin x - x \cos x$</label>
+                </div>
+            </div>
+
+            <div class="question" data-ans="B">
+                <p>Q2. Value of $\log_a b \cdot \log_b c \cdot \log_c a$ is?</p>
+                <div class="options">
+                    <label><input type="radio" name="q2" value="A"> 0</label>
+                    <label><input type="radio" name="q2" value="B"> 1</label>
+                    <label><input type="radio" name="q2" value="C"> $\log(abc)$</label>
+                </div>
+            </div>
+
+            <button class="btn" onclick="submitTest()">SUBMIT TEST</button>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION
+        const MY_WHATSAPP = "91XXXXXXXXXX"; // <--- APNA NUMBER YAHAN DALO (91 ke saath)
+        let timeLeft = 3600; 
+        let cheatCount = 0;
+
+        // Timer
+        let timerInterval = setInterval(() => {
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('timer').innerText = ${mins}:${secs < 10 ? '0' : ''}${secs};
+            if (timeLeft <= 0) submitTest("Time Up");
+            timeLeft--;
+        }, 1000);
+
+        // Anti-Cheat (Logout on Tab Switch)
+        document.addEventListener("visibilitychange", () => {
+            if (document.hidden) {
+                cheatCount++;
+                if (cheatCount >= 2) {
+                    alert("TERMINATED! Multiple tab switches detected.");
+                    submitTest("Logged out (Cheating)");
+                } else {
+                    alert("WARNING: Do not switch apps! Next time test will close.");
+                }
+            }
+        });
+
+        function submitTest(reason = "Completed") {
+            clearInterval(timerInterval);
+            let score = 0;
+            let name = document.getElementById('studentName').value || "Unknown";
+            
+            // Basic Scoring Logic
+            let qs = document.querySelectorAll('.question');
+            qs.forEach((q, i) => {
+                let selected = document.querySelector(input[name="q${i+1}"]:checked)?.value;
+                if(selected === q.dataset.ans) score++;
+            });
+
+            let msg = *Aimers Test Report*%0A*Name:* ${name}%0A*Score:* ${score}/20%0A*Status:* ${reason};
+            window.location.href = https://wa.me/${MY_WHATSAPP}?text=${msg};
+            document.body.innerHTML = "<h1 style='text-align:center; margin-top:100px;'>Test Submitted! Result sent to teacher via WhatsApp.</h1>";
+        }
+    </script>
+</body>
+</html>
